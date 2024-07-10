@@ -1,9 +1,7 @@
 package constants
 
 import (
-	"log"
 	"os"
-	"path/filepath"
 )
 
 var Password string
@@ -13,9 +11,6 @@ var Port string
 
 func СonstInit() {
 	Password = os.Getenv("TODO_PASSWORD")
-	if Password == "" {
-		Password = "103"
-	}
 
 	TockenSecret = os.Getenv("TODO_TOCKEN_SECRET")
 	if TockenSecret == "" {
@@ -24,11 +19,7 @@ func СonstInit() {
 
 	DBfile = os.Getenv("TODO_DBFILE")
 	if DBfile == "" {
-		appPath, err := os.Executable()
-		if err != nil {
-			log.Fatal(err)
-		}
-		DBfile = filepath.Join(filepath.Dir(appPath), "scheduler.db")
+		DBfile = "./scheduler.db"
 	}
 
 	Port = os.Getenv("TODO_PORT")
