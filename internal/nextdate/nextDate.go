@@ -6,12 +6,12 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/IvanMishnev/go_final_project/internal/constants"
 )
 
-const dateFormat = "20060102"
-
 func NextDate(now time.Time, d string, repeat string) (string, error) {
-	date, err := time.Parse(dateFormat, d)
+	date, err := time.Parse(constants.DateFormat, d)
 	if err != nil {
 		return "", errors.New("wrong date format")
 	}
@@ -196,11 +196,11 @@ func NextDate(now time.Time, d string, repeat string) (string, error) {
 			}
 		}
 		date = time.Date(year, month, day, 0, 0, 0, 0, time.UTC)
-		return date.Format(dateFormat), nil
+		return date.Format(constants.DateFormat), nil
 
 	default:
 		return "", errors.New("wrong repeat rule")
 	}
 
-	return date.Format(dateFormat), nil
+	return date.Format(constants.DateFormat), nil
 }
