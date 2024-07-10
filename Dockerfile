@@ -1,15 +1,11 @@
-FROM golang:1.22.3
+FROM golang:1.22.5
 
 WORKDIR /usr/src/app
 
 COPY . .
 
-RUN go mod tidy
+RUN go mod download
 
-EXPOSE 7540
-
-ENV TODO_PORT=7540 TODO_PASSWORD=abc123
-
-RUN GOOS=linux GOARCH=amd64 go build -o ./todo_app
+RUN go build -o ./todo_app
 
 CMD [ "./todo_app" ]

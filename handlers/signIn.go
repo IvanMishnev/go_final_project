@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"os"
 
+	"github.com/IvanMishnev/go_final_project/internal/constants"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -24,8 +24,8 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if password == os.Getenv("TODO_PASSWORD") {
-		secret := os.Getenv("TODO_TOKEN_SECRET")
+	if password == constants.Password {
+		secret := constants.TockenSecret
 		pHash := sha256.Sum256([]byte(password))
 		passwordHashString := hex.EncodeToString(pHash[:])
 		claims := jwt.MapClaims{
@@ -46,9 +46,4 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		JSONError(w, errors.New("wrong password").Error(), http.StatusBadRequest)
 		return
 	}
-}
-
-func FileServer(w http.ResponseWriter, r *http.Request) {
-	dir := "./web"
-	http.ServeFile(w, r, dir+r.URL.Path)
 }

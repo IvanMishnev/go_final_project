@@ -1,9 +1,9 @@
 module github.com/IvanMishnev/go_final_project
 
-go 1.22.0
+go 1.22.5
 
 require (
-	github.com/go-chi/chi/v5 v5.0.13
+	github.com/go-chi/chi/v5 v5.1.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/mattn/go-sqlite3 v1.14.22

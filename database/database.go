@@ -4,40 +4,33 @@ import (
 	"database/sql"
 	"log"
 	"os"
-	"path/filepath"
 
+	"github.com/IvanMishnev/go_final_project/internal/constants"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var DB *sql.DB
+type TaskStore struct {
+	db *sql.DB
+}
 
-func ConnectDB() {
-	var dbFile string
-	envDbPath := os.Getenv("TODO_DBFILE")
-	if envDbPath != "" {
-		dbFile = envDbPath
-	} else {
-		appPath, err := os.Executable()
-		if err != nil {
-			log.Fatal(err)
-		}
-		dbFile = filepath.Join(filepath.Dir(appPath), "scheduler.db")
-	}
+var TaskDB TaskStore
+
+func (store *TaskStore) Connect() {
+	dbFile := constants.DBfile
 
 	_, err := os.Stat(dbFile)
 	if err != nil {
 		os.Create(dbFile)
 	}
 
-	DB, err = sql.Open("sqlite3", dbFile)
+	db, err := sql.Open("sqlite3", dbFile)
 	if err != nil {
 		log.Fatal("Failed to connect to database.\n", err)
-		os.Exit(1)
 	}
 
 	log.Println("connected to DB")
 
-	_, err = DB.Exec(`CREATE TABLE IF NOT EXISTS scheduler(
+	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS scheduler(
 		id INTEGER PRIMARY KEY,
 		date CHAR(8) NOT NULL DEFAULT "",
 		title VARCHAR(256) NOT NULL DEFAULT "",
@@ -48,4 +41,12 @@ func ConnectDB() {
 		log.Fatal(err)
 	}
 
+	store.db = db
+}
+
+func (store *TaskStore) Close() {
+	err := store.db.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
 }

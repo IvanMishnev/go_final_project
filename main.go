@@ -1,17 +1,16 @@
 package main
 
 import (
-	"os"
-
 	"github.com/IvanMishnev/go_final_project/api"
 	"github.com/IvanMishnev/go_final_project/database"
+	"github.com/IvanMishnev/go_final_project/internal/constants"
 )
 
 func main() {
-	if os.Getenv("TODO_PASSWORD") == "" {
-		os.Setenv("TODO_PASSWORD", "103")
-	}
+	constants.СonstInit()
 
-	database.ConnectDB()
+	database.TaskDB.Connect()
+	defer database.TaskDB.Close()
+
 	api.StartServer()
 }

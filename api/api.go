@@ -3,23 +3,15 @@ package api
 import (
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/IvanMishnev/go_final_project/handlers"
+	"github.com/IvanMishnev/go_final_project/internal/constants"
 	"github.com/IvanMishnev/go_final_project/middleware"
 	"github.com/go-chi/chi/v5"
 )
 
 func StartServer() {
-	var addr string
-	envPort := os.Getenv("TODO_PORT")
-	if envPort != "" {
-		addr = ":" + envPort
-	} else {
-		addr = ":7540"
-	}
-
-	os.Setenv("TODO_TOKEN_SECRET", "final")
+	addr := ":" + constants.Port
 
 	r := chi.NewRouter()
 	r.Get("/*", handlers.FileServer)
